@@ -1,0 +1,84 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/translations';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const testimonials = [
+  {
+    quote: lang === 'de'
+      ? '"Herausragender Freelancer... Expertise in Java und Vaadin mit bemerkenswerter Geschwindigkeit... außergewöhnliche Fähigkeit, komplexe Anforderungen zu verstehen... analytische Denkweise für Fehlererkennung und -behebung."'
+      : '"Standout freelancer... expertise in Java and Vaadin with remarkable speed... exceptional proficiency in understanding complex requirements... analytical mindset for bug detection and resolution."',
+    author: 'Matthias Heicke',
+    role: lang === 'de' ? 'Technischer Leiter' : 'Technical Lead',
+    company: 'Sweap.io',
+  },
+  {
+    quote: lang === 'de'
+      ? '"Sehr fokussierte Arbeitsweise mit schneller Fertigstellung von Ergebnissen... hielt hohe Qualitätsstandards ein... würde mich für das nächste Projekt wieder anmelden."'
+      : '"Very focused approach with rapid completion of deliverables... maintained high quality standards... would sign up for the next project again."',
+    author: 'Thomas Reiners',
+    role: lang === 'de' ? 'Projektmanager' : 'Project Manager',
+    company: '',
+  },
+];
+---
+
+<section id="testimonials" class="py-24 bg-bg-primary">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-4">
+        {t('testimonials.title')}
+      </h2>
+      <p class="text-xl text-text-secondary max-w-2xl mx-auto">
+        {t('testimonials.subtitle')}
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      {testimonials.map((testimonial) => (
+        <div class="p-8 rounded-2xl bg-bg-card border border-border relative">
+          <!-- Quote icon -->
+          <div class="absolute -top-4 left-8">
+            <div class="w-8 h-8 rounded-full bg-accent flex items-center justify-center">
+              <svg class="w-4 h-4 text-bg-primary" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+              </svg>
+            </div>
+          </div>
+
+          <blockquote class="text-lg text-text-secondary italic mb-6 pt-4">
+            {testimonial.quote}
+          </blockquote>
+
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center text-accent font-bold">
+              {testimonial.author.split(' ').map(n => n[0]).join('')}
+            </div>
+            <div>
+              <p class="font-semibold">{testimonial.author}</p>
+              <p class="text-text-muted text-sm">
+                {testimonial.role}{testimonial.company && `, ${testimonial.company}`}
+              </p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- LinkedIn link -->
+    <div class="text-center mt-12">
+      <a
+        href="https://www.linkedin.com/in/rgeoroceanu"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 text-accent hover:text-accent-light transition-colors"
+      >
+        <span>{lang === 'de' ? 'Mehr auf LinkedIn sehen' : 'See more on LinkedIn'}</span>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
