@@ -8,8 +8,9 @@ A professional website for Radu Georoceanu's freelancing software services, focu
 
 - **Framework:** Astro (static site generator)
 - **Styling:** Tailwind CSS v4
-- **Hosting:** Netlify (or GitHub Pages)
-- **Languages:** Bilingual (English + German)
+- **Hosting:** GitHub Pages (custom domain: radugeo.com)
+- **Languages:** Bilingual (English + German) with auto-detection
+- **CI/CD:** GitHub Actions (auto-deploy on push to main)
 
 ## Design Requirements
 
@@ -18,25 +19,31 @@ A professional website for Radu Georoceanu's freelancing software services, focu
 - **Theme:** Dark-first aesthetic (navy/dark backgrounds)
 - **Accent color:** Teal (#14b8a6) - matches existing CV branding
 - **Typography:** Clean, modern (Inter font family)
-- **Animations:** Subtle hover effects, smooth transitions (not excessive)
+- **Animations:** Subtle hover effects, smooth transitions, floating orb in hero
 
 ### Design Principles
 - Modern but minimalist
-- Eye-catching with 1-2 tasteful animations
-- Mobile-responsive
-- Accessibility-conscious
+- Eye-catching with tasteful animations
+- Mobile-responsive (hamburger menu on mobile)
+- Accessibility-conscious (focus-visible, ARIA labels, semantic HTML)
 
 ## Site Structure
 
 ### Sections (Single-page design)
-1. **Navigation** - Fixed top nav with language switcher, "Book a Call" CTA
-2. **Hero** - Tagline, brief intro, primary CTA
-3. **Pain Points** - 3 cards addressing client challenges
+1. **Navigation** - Fixed glass-effect top nav with language switcher, "Book a Call" CTA, mobile menu
+2. **Hero** - Tagline, brief intro, primary CTA, quick stats (10+ years, 15+ clients, 3 certifications)
+3. **Pain Points** - 3 cards addressing client challenges (legacy systems, talent shortage, tech debt)
 4. **Services** - 4 service cards (Legacy Modernization, AI Integration, Architecture Consulting, Full-Stack Dev)
-5. **About/Credentials** - Stats, certifications, bio
-6. **Testimonials** - 2 LinkedIn recommendations
-7. **CTA Section** - Final call-to-action with booking link
-8. **Footer** - Contact info, social links
+5. **About/Credentials** - Profile photo, bio, stats, certifications, tech stack tags
+6. **Testimonials** - 2 LinkedIn recommendations with LinkedIn link
+7. **CTA Section** - Final call-to-action with booking link, email, phone
+8. **Footer** - Logo, location, LinkedIn, email, copyright
+
+### Features
+- **Auto language detection:** Detects browser language on first visit, redirects to /de for German users
+- **Language switcher:** Manual EN/DE toggle, saves preference in localStorage
+- **SEO:** hreflang tags, Open Graph meta, semantic HTML, descriptive alt texts
+- **Performance:** WebP images with PNG fallback, lazy loading, optimized assets
 
 ## Content
 
@@ -87,19 +94,37 @@ A professional website for Radu Georoceanu's freelancing software services, focu
 - **LinkedIn:** https://www.linkedin.com/in/rgeoroceanu
 - **Location:** Munich, Germany
 
-## Assets Needed
+## Assets
 
-- [ ] Professional photo (user will provide)
-- [x] Favicon (create simple "RG" favicon)
+- [x] Logo (RG monogram - teal/silver 3D, transparent background)
+- [x] Profile photo (in About section)
+- [x] Favicon (derived from logo)
+
+### Optimized Image Files (in public/)
+| File | Purpose | Format |
+|------|---------|--------|
+| logo-nav.webp / .png | Navigation logo | WebP + PNG fallback |
+| logo-footer.webp / .png | Footer logo | WebP + PNG fallback |
+| profile.webp / .png | About section photo | WebP + PNG fallback |
+| favicon.ico / .png | Browser tab icon | ICO + PNG |
 
 ## File Structure
 
 ```
 radugeo-com/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml          # GitHub Actions deploy workflow
 ├── public/
-│   ├── images/
-│   │   └── profile.jpg (to be provided)
-│   └── favicon.svg
+│   ├── CNAME                   # Custom domain for GitHub Pages
+│   ├── favicon.ico
+│   ├── favicon.png
+│   ├── logo-nav.png
+│   ├── logo-nav.webp
+│   ├── logo-footer.png
+│   ├── logo-footer.webp
+│   ├── profile.png
+│   └── profile.webp
 ├── src/
 │   ├── components/
 │   │   ├── Hero.astro
@@ -109,32 +134,49 @@ radugeo-com/
 │   │   ├── Testimonials.astro
 │   │   └── CTA.astro
 │   ├── i18n/
-│   │   └── translations.ts
+│   │   └── translations.ts    # EN/DE translations + helpers
 │   ├── layouts/
-│   │   └── Layout.astro
+│   │   └── Layout.astro       # Main layout (nav, footer, scripts)
 │   ├── pages/
-│   │   ├── index.astro (English)
+│   │   ├── index.astro        # English homepage
 │   │   └── de/
-│   │       └── index.astro (German)
+│   │       └── index.astro    # German homepage
 │   └── styles/
-│       └── global.css
+│       └── global.css         # Tailwind + custom theme + animations
 ├── astro.config.mjs
 ├── package.json
-├── tailwind.config.mjs
+├── tsconfig.json
 └── CLAUDE.md
 ```
 
 ## Development Commands
 
 ```bash
-npm run dev      # Start dev server
-npm run build    # Build for production
+npm run dev      # Start dev server (http://localhost:4321)
+npm run build    # Build for production (output: dist/)
 npm run preview  # Preview production build
 ```
 
 ## Deployment
 
-Deploy to Netlify:
-1. Connect GitHub repository
-2. Build command: `npm run build`
-3. Publish directory: `dist`
+### GitHub Pages (with custom domain radugeo.com)
+
+**GitHub repo:** github.com/rgeoroceanu/radugeo-com
+
+**Automatic deployment:** Push to `main` triggers GitHub Actions → builds → deploys to GitHub Pages.
+
+**DNS (Squarespace):**
+
+A records (root domain):
+- 185.199.108.153
+- 185.199.109.153
+- 185.199.110.153
+- 185.199.111.153
+
+CNAME record (www):
+- www → rgeoroceanu.github.io
+
+**GitHub repo settings:**
+1. Settings → Pages → Source: GitHub Actions
+2. Settings → Pages → Custom domain: radugeo.com
+3. Settings → Pages → Enforce HTTPS: enabled
