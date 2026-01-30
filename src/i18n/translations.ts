@@ -69,6 +69,14 @@ export const translations = {
     'footer.location': 'Munich, Germany',
     'footer.impressum': 'Legal Notice',
     'footer.privacy': 'Privacy Policy',
+    'footer.cookies': 'Cookie Settings',
+
+    // Cookie Consent
+    'cookie.title': 'Cookie Settings',
+    'cookie.description': 'We use cookies for analytics (Google Analytics) to improve our website. You can accept or reject non-essential cookies.',
+    'cookie.accept': 'Accept',
+    'cookie.reject': 'Reject',
+    'cookie.privacy': 'Privacy Policy',
   },
   de: {
     // Navigation
@@ -133,6 +141,14 @@ export const translations = {
     'footer.location': 'München, Deutschland',
     'footer.impressum': 'Impressum',
     'footer.privacy': 'Datenschutz',
+    'footer.cookies': 'Cookie-Einstellungen',
+
+    // Cookie Consent
+    'cookie.title': 'Cookie-Einstellungen',
+    'cookie.description': 'Wir verwenden Cookies für Analysen (Google Analytics), um unsere Website zu verbessern. Sie können nicht-essenzielle Cookies akzeptieren oder ablehnen.',
+    'cookie.accept': 'Akzeptieren',
+    'cookie.reject': 'Ablehnen',
+    'cookie.privacy': 'Datenschutz',
   },
 } as const;
 

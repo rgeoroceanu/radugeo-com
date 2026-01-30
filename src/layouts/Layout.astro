@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { getLangFromUrl, useTranslations, getLocalizedPath } from '../i18n/translations';
+import CookieBanner from '../components/CookieBanner.astro';
 
 interface Props {
   title?: string;
@@ -164,6 +165,9 @@ const bookingUrl = 'https://calendar.app.google/5aJYvSXHJigk6raE9';
             <a href={lang === 'de' ? '/de/datenschutz' : '/privacy'} class="hover:text-accent transition-colors">
               {t('footer.privacy')}
             </a>
+            <a href="#" data-cookie-settings class="hover:text-accent transition-colors">
+              {t('footer.cookies')}
+            </a>
           </div>
 
           <p class="text-text-muted text-sm">
@@ -172,6 +176,8 @@ const bookingUrl = 'https://calendar.app.google/5aJYvSXHJigk6raE9';
         </div>
       </div>
     </footer>
+
+    <CookieBanner />
 
     <!-- Language detection and mobile menu script -->
     <script is:inline>
