@@ -1,0 +1,131 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/translations';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const privacyPath = lang === 'de' ? '/de/datenschutz' : '/privacy';
+---
+
+<div
+  id="cookie-banner"
+  role="dialog"
+  aria-label={t('cookie.title')}
+  aria-hidden="true"
+  class="fixed bottom-0 left-0 right-0 z-[100] translate-y-full transition-transform duration-500 ease-out"
+>
+  <div class="glass border-t border-border/50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <div class="flex-1">
+          <p class="text-sm font-semibold text-text-primary mb-1">{t('cookie.title')}</p>
+          <p class="text-sm text-text-secondary">
+            {t('cookie.description')}{' '}
+            <a href={privacyPath} class="text-accent hover:text-accent-light underline">
+              {t('cookie.privacy')}
+            </a>
+          </p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto shrink-0">
+          <button
+            id="cookie-reject"
+            class="px-5 py-2 text-sm font-medium rounded-lg border border-border text-text-secondary hover:text-text-primary hover:border-text-secondary transition-colors cursor-pointer"
+          >
+            {t('cookie.reject')}
+          </button>
+          <button
+            id="cookie-accept"
+            class="px-5 py-2 text-sm font-medium rounded-lg bg-accent hover:bg-accent-dark text-bg-primary transition-colors cursor-pointer"
+          >
+            {t('cookie.accept')}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+(function() {
+  var GA_ID = 'G-1G6WKLS2B5';
+
+  function loadGA() {
+    if (document.getElementById('ga-script')) return;
+    var script = document.createElement('script');
+    script.id = 'ga-script';
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(script);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { window.dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', GA_ID, { anonymize_ip: true });
+  }
+
+  function removeGA() {
+    var script = document.getElementById('ga-script');
+    if (script) script.remove();
+    window.dataLayer = [];
+    // Delete all _ga cookies
+    document.cookie.split(';').forEach(function(c) {
+      var name = c.trim().split('=')[0];
+      if (name.indexOf('_ga') === 0) {
+        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=' + window.location.hostname;
+        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+      }
+    });
+  }
+
+  function showBanner() {
+    var banner = document.getElementById('cookie-banner');
+    if (!banner) return;
+    banner.setAttribute('aria-hidden', 'false');
+    banner.classList.remove('translate-y-full');
+  }
+
+  function hideBanner() {
+    var banner = document.getElementById('cookie-banner');
+    if (!banner) return;
+    banner.setAttribute('aria-hidden', 'true');
+    banner.classList.add('translate-y-full');
+  }
+
+  function handleAccept() {
+    localStorage.setItem('cookie-consent', 'accepted');
+    hideBanner();
+    loadGA();
+  }
+
+  function handleReject() {
+    localStorage.setItem('cookie-consent', 'rejected');
+    hideBanner();
+    removeGA();
+  }
+
+  // Check consent state on load
+  var consent = localStorage.getItem('cookie-consent');
+  if (consent === 'accepted') {
+    loadGA();
+  } else if (!consent) {
+    // No decision yet - show banner after delay
+    setTimeout(showBanner, 800);
+  }
+
+  // Bind buttons
+  document.addEventListener('DOMContentLoaded', function() {
+    var acceptBtn = document.getElementById('cookie-accept');
+    var rejectBtn = document.getElementById('cookie-reject');
+    if (acceptBtn) acceptBtn.addEventListener('click', handleAccept);
+    if (rejectBtn) rejectBtn.addEventListener('click', handleReject);
+
+    // Cookie settings link in footer
+    document.querySelectorAll('[data-cookie-settings]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        showBanner();
+      });
+    });
+  });
+})();
+</script>
