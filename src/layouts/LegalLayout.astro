@@ -1,0 +1,105 @@
+---
+import '../styles/global.css';
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '../i18n/translations';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const otherLang = lang === 'en' ? 'de' : 'en';
+const otherLangPath = lang === 'en' ? '/de' : '/';
+
+const bookingUrl = 'https://calendar.app.google/5aJYvSXHJigk6raE9';
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Radu Georoceanu" />
+    <meta name="robots" content="noindex, follow" />
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <title>{title}</title>
+  </head>
+  <body class="bg-bg-primary text-text-primary">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-border/50">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <a href={getLocalizedPath('/', lang)} class="flex items-center">
+            <picture>
+              <source srcset="/logo-nav.webp" type="image/webp" />
+              <img src="/logo-nav.png" alt="Radu Georoceanu" class="h-10 w-auto" width="147" height="80" loading="eager" />
+            </picture>
+          </a>
+
+          <div class="flex items-center gap-8">
+            <a href={getLocalizedPath('/', lang)} class="text-text-secondary hover:text-text-primary transition-colors">
+              {lang === 'de' ? 'Startseite' : 'Home'}
+            </a>
+            <a href={otherLangPath} class="text-text-secondary hover:text-text-primary transition-colors uppercase text-sm font-medium">
+              {otherLang}
+            </a>
+            <a
+              href={bookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hidden sm:inline-block bg-accent hover:bg-accent-dark text-bg-primary px-4 py-2 rounded-lg font-medium transition-all hover:-translate-y-0.5"
+            >
+              {t('nav.bookCall')}
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="pt-24 pb-16">
+      <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 prose prose-invert">
+        <slot />
+      </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-bg-secondary border-t border-border py-12">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+          <div class="flex items-center gap-4">
+            <picture>
+              <source srcset="/logo-footer.webp" type="image/webp" />
+              <img src="/logo-footer.png" alt="Radu Georoceanu" class="h-8 w-auto" width="110" height="60" loading="lazy" />
+            </picture>
+            <span class="text-text-muted">|</span>
+            <span class="text-text-secondary">{t('footer.location')}</span>
+          </div>
+
+          <div class="flex items-center gap-6 text-sm text-text-secondary">
+            <a href={getLocalizedPath('/impressum', lang)} class="hover:text-accent transition-colors">
+              {t('footer.impressum')}
+            </a>
+            <a href={lang === 'de' ? '/de/datenschutz' : '/privacy'} class="hover:text-accent transition-colors">
+              {t('footer.privacy')}
+            </a>
+          </div>
+
+          <p class="text-text-muted text-sm">
+            &copy; {new Date().getFullYear()} Radu Georoceanu. {t('footer.rights')}
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

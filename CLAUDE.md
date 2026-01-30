@@ -37,7 +37,17 @@ A professional website for Radu Georoceanu's freelancing software services, focu
 5. **About/Credentials** - Profile photo, bio, stats, certifications, tech stack tags
 6. **Testimonials** - 2 LinkedIn recommendations with LinkedIn link
 7. **CTA Section** - Final call-to-action with booking link, email, phone
-8. **Footer** - Logo, location, LinkedIn, email, copyright
+8. **Footer** - Logo, location, LinkedIn, email, copyright, Impressum/Privacy links
+
+### Additional Pages
+- **Impressum** (`/impressum` and `/de/impressum`) - Legal notice required by German law (TMG §5)
+- **Privacy Policy** (`/privacy` and `/de/datenschutz`) - GDPR/DSGVO compliant privacy policy
+
+### Legal / GDPR Compliance
+- **Impressum** contains: name, address, contact, USt-IdNr, responsible person
+- **Privacy Policy** covers: data controller info, Google Analytics (with IP anonymization), Google Fonts, Google Calendar, cookies, user rights (DSGVO Art. 15-21), right to complain to supervisory authority
+- **Cookie consent** would be needed if Google Analytics is active (future enhancement)
+- Footer links to both pages from all pages
 
 ### Features
 - **Auto language detection:** Detects browser language on first visit, redirects to /de for German users
@@ -139,8 +149,12 @@ radugeo-com/
 │   │   └── Layout.astro       # Main layout (nav, footer, scripts)
 │   ├── pages/
 │   │   ├── index.astro        # English homepage
+│   │   ├── impressum.astro    # Impressum (EN)
+│   │   ├── privacy.astro      # Privacy Policy (EN)
 │   │   └── de/
-│   │       └── index.astro    # German homepage
+│   │       ├── index.astro    # German homepage
+│   │       ├── impressum.astro # Impressum (DE)
+│   │       └── datenschutz.astro # Datenschutzerklärung (DE)
 │   └── styles/
 │       └── global.css         # Tailwind + custom theme + animations
 ├── astro.config.mjs

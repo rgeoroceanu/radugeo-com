@@ -157,6 +157,15 @@ const bookingUrl = 'https://calendar.app.google/5aJYvSXHJigk6raE9';
             </a>
           </div>
 
+          <div class="flex items-center gap-6 text-sm text-text-secondary">
+            <a href={getLocalizedPath('/impressum', lang)} class="hover:text-accent transition-colors">
+              {t('footer.impressum')}
+            </a>
+            <a href={lang === 'de' ? '/de/datenschutz' : '/privacy'} class="hover:text-accent transition-colors">
+              {t('footer.privacy')}
+            </a>
+          </div>
+
           <p class="text-text-muted text-sm">
             &copy; {new Date().getFullYear()} Radu Georoceanu. {t('footer.rights')}
           </p>

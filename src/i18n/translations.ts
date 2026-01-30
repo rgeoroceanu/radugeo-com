@@ -67,6 +67,8 @@ export const translations = {
     // Footer
     'footer.rights': 'All rights reserved.',
     'footer.location': 'Munich, Germany',
+    'footer.impressum': 'Legal Notice',
+    'footer.privacy': 'Privacy Policy',
   },
   de: {
     // Navigation
@@ -129,6 +131,8 @@ export const translations = {
     // Footer
     'footer.rights': 'Alle Rechte vorbehalten.',
     'footer.location': 'München, Deutschland',
+    'footer.impressum': 'Impressum',
+    'footer.privacy': 'Datenschutz',
   },
 } as const;
 
